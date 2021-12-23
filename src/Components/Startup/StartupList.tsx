@@ -1,5 +1,39 @@
-import { Fragment, ReactElement } from "react";
+import { Fragment, ReactElement, useEffect, useState } from "react";
+import Card from '@mui/material/Card';
+import CardContent from '@mui/material/CardContent';
+import Typography from '@mui/material/Typography';
+
+import {StartupHttpService} from "../../Http/Startup/Startup.http.service";
+import {Startup} from "../../Types/Startup";
 
 export default function StartupList(): ReactElement {
-  return <Fragment></Fragment>;
+  const [startupList, setStartupList] = useState<Startup[]>([]);
+  useEffect(() => {
+    StartupHttpService.getStartupList()
+      .then(res => (setStartupList([...res])));
+  }, [])
+
+  const StartupCard = (startup: Startup) => (
+    <Card sx={{minWidth: 500, mb: 3}}>
+      <CardContent>
+        <Typography variant='h5' color="text.primary" gutterBottom>
+          {startup.name}
+        </Typography>
+        <Typography variant='body2' sx={{mt: 0.5}} color='text.secondary'>
+          Founded in {startup.dateFounded.getFullYear()} | {startup.employees} employees | {startup.totalFunding}$ in funding | {startup.currentInvestmentStage}
+        </Typography>
+        <Typography variant='body1' sx={{mt: 1.5}} color='text.primary'>
+          {startup.shortDescription}
+        </Typography>
+      </CardContent>
+    </Card>
+  )
+
+  return (
+    <Fragment>
+      {startupList.map((startup : Startup) => (
+        StartupCard(startup)
+      ))}
+    </Fragment>
+  );
 }
