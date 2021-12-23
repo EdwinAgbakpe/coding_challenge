@@ -20,7 +20,7 @@ export default function StartupList(): ReactElement {
           {startup.name}
         </Typography>
         <Typography variant='body2' sx={{mt: 0.5}} color='text.secondary'>
-          Founded in {startup.dateFounded.getFullYear()} | {startup.employees} employees | {startup.totalFunding}$ in funding | {startup.currentInvestmentStage}
+          Founded: {startup.dateFounded.getFullYear()} | {startup.employees} Employees | $ {startup.totalFunding} Mio. | {startup.currentInvestmentStage}
         </Typography>
         <Typography variant='body1' sx={{mt: 1.5}} color='text.primary'>
           {startup.shortDescription}
@@ -31,9 +31,11 @@ export default function StartupList(): ReactElement {
 
   return (
     <Fragment>
-      {startupList.map((startup : Startup) => (
-        StartupCard(startup)
-      ))}
+      <div id="startup-list">
+        {startupList.map((startup : Startup) => (
+          StartupCard(startup)
+        ))}
+      </div>
     </Fragment>
   );
 }
